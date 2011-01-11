@@ -83,7 +83,16 @@ class DocumentReader:
         @rtype: file-like
         """
         store = DocumentStore()
-        fp = store.open(url)
+        if url.startswith('http') or url.startswith('suds'):
+            fp = store.open(url)
+            if fp is None:
+                fp = self.options.transport.open(Request(url))
+            content = fp.read()
+            fp.close()
+        else:
+            f = open(url, 'r')
+            content = f.read()
+            f.close()
         if fp is None:
             fp = self.options.transport.open(Request(url))
         sax = Parser()
