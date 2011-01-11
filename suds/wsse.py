@@ -178,7 +178,7 @@ class UsernameToken(Token):
             root.append(n)
         if self.created is not None:
             n = Element('Created', ns=wsuns)
-            n.setText(str(UTC(self.created)))
+            n.setText(str(self.created))
             root.append(n)
         return root
 
